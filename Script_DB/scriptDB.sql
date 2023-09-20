@@ -41,10 +41,6 @@ CREATE TABLE IF NOT EXISTS `datospersonales` (
 --
 -- Dumping data for table `datospersonales`
 --
-
-INSERT INTO `datospersonales` (`id`, `apellidoPaterno`, `apellidoMaterno`, `nombres`, `sexo`, `email`, `fechaNac`, `domicilio`) VALUES
-(1, 'Velazquez', 'Martin', 'Viviana', 1, 'vvminlo@gmail.com', '2023-08-31', 'Manuel de Austri');
-
 --
 -- Indexes for dumped tables
 --
@@ -52,8 +48,6 @@ INSERT INTO `datospersonales` (`id`, `apellidoPaterno`, `apellidoMaterno`, `nomb
 --
 -- Indexes for table `datospersonales`
 --
-ALTER TABLE `datospersonales`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -62,9 +56,6 @@ ALTER TABLE `datospersonales`
 --
 -- AUTO_INCREMENT for table `datospersonales`
 --
-ALTER TABLE `datospersonales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
