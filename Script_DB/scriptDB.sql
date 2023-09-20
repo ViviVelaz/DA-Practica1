@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `datospersonales` (
 --
 -- Indexes for dumped tables
 --
-
+DELETE FROM `datospersonales`;
 --
 -- Indexes for table `datospersonales`
 --
