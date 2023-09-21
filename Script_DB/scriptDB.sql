@@ -38,24 +38,16 @@ CREATE TABLE IF NOT EXISTS `datospersonales` (
   `domicilio` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `datospersonales`
---
---
--- Indexes for dumped tables
---
+
+ALTER TABLE `datospersonales`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `datospersonales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+COMMIT;
+
 DELETE FROM `datospersonales`;
---
--- Indexes for table `datospersonales`
---
 
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `datospersonales`
---
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
