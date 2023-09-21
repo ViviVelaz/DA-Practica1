@@ -28,7 +28,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `datospersonales` (
-  `id` int(11) NOT NULL,
   `apellidoPaterno` varchar(50) NOT NULL,
   `apellidoMaterno` varchar(50) NOT NULL,
   `nombres` varchar(100) NOT NULL,
@@ -37,14 +36,6 @@ CREATE TABLE IF NOT EXISTS `datospersonales` (
   `fechaNac` date NOT NULL,
   `domicilio` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-ALTER TABLE `datospersonales`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `datospersonales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-COMMIT;
 
 DELETE FROM `datospersonales`;
 
