@@ -27,6 +27,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `datospersonales`
 --
 
+DROP TABLE IF EXISTS `datospersonales`;
+
 CREATE TABLE IF NOT EXISTS `datospersonales` (
   `apellidoPaterno` varchar(50) NOT NULL,
   `apellidoMaterno` varchar(50) NOT NULL,
@@ -37,8 +39,12 @@ CREATE TABLE IF NOT EXISTS `datospersonales` (
   `domicilio` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-DELETE FROM `datospersonales`;
+ALTER TABLE `datospersonales`
+  ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `datospersonales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
