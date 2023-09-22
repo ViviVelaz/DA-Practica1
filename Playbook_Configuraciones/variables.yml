@@ -1,0 +1,11 @@
+---
+mysql_root_password: ""
+app_user: "viviana"            # Usuario del servidor
+http_host: "vvelazquez.com"      # Nombre del sitio
+http_conf: "avvelazquez.com.conf" # Nombre del archivo de configuracion del sitio
+http_confp: "bvvelazquez.com.conf" # Nombre del archivo de configuracion del sitio
+http_port: "80"             # Puerto en el que se habilitar
+disable_default: true       # Sabe que sea
+db_name: "formularioDB"
+name_new_user_db: "viviana"   # Nombre de usuario con el que se conectara a la base de datos
+pass_new_user_db: "123"

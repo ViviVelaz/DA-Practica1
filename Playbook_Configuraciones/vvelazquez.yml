@@ -1,0 +1,121 @@
+#Velázquez Martín Viviana Guadalupe
+#P1 - Instalación de Server con Ansible
+---
+- hosts: all
+  become: true
+  vars_files:
+    - variables.yml
+  
+  tasks:
+    #Paquetes necesarios para el funcionamiento
+    - name: Actualizando paquetes
+      apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+      loop: [ 'aptitude' ]
+    
+    - name: Instalacion de paquetes
+      apt: name={{ item }} update_cache=yes state=latest
+      loop: [ 'apache2', 'mysql-server', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php' ]
+    
+    #Configuración para Virtual Host
+    - name: Root de documentos
+      file:
+        path: "/var/www/{{ http_host }}"
+        state: directory
+        owner: "{{ app_user }}"
+        mode: '0755'
+
+    - name: Crear VirtualHost WWW
+      template: 
+        src: "avirtual.conf.j2"
+        dest: "/etc/apache2/sites-available/{{ http_conf }}"
+      notify: Reload Apache
+    
+    - name: Habilitar Virtual Host WWW
+      shell: /usr/sbin/a2ensite {{ http_conf }}
+      notify: Reload Apache
+
+    - name: Crear VirtualHost APP
+      template: 
+        src: "bvirtual.conf.j2"
+        dest: "/etc/apache2/sites-available/{{ http_confp }}"
+      notify: Reload Apache
+    
+    - name: Habilitar Virtual Host APP
+      shell: /usr/sbin/a2ensite {{ http_confp }}
+      notify: Reload Apache
+      
+    - name: Desabilitando el sitio por defecto de Apache
+      shell: /usr/sbin/a2dissite 000-default.conf
+      when: disable_default
+      notify: Reload Apache
+      
+    #Configuración firewall
+    - name: "Abrir puerto {{ http_port }}"
+      ufw:
+        rule: allow
+        port: "{{ http_port }}"
+        proto: tcp
+      
+    #Carga de página web
+    - name: Clonar repositorio
+      git: 
+        repo: https://github.com/ViviVelaz/DA-P1-Extras.git
+        dest: /var/www/{{http_host}} 
+        update: no
+    
+    #Configuración para BD
+    - name: Creacion de un nuevo usuario
+      mysql_user:
+        name: '{{ name_new_user_db }}'
+        password: '{{ pass_new_user_db }}'
+        priv: '*.*:ALL,GRANT'
+        state: present
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Remover cuentas de usuario anonimas
+      mysql_user:
+        name: ''
+        host_all: yes
+        state: absent
+        login_user: '{{ name_new_user_db }}'
+        login_password: '{{ pass_new_user_db }}'
+
+    - name: Remover base de datos de prueba
+      mysql_db:
+        name: test
+        state: absent
+        login_user: '{{ name_new_user_db }}'
+        login_password: '{{ pass_new_user_db }}'
+        
+    #Creacion de BD
+    - name: Creacion de la base de datos
+      mysql_db:
+        name: '{{ db_name }}' 
+        state: present
+        login_user: '{{ name_new_user_db }}'
+        login_password: '{{ pass_new_user_db }}'
+
+    - name: Descargar script BD
+      get_url: 
+        url: https://raw.githubusercontent.com/ViviVelaz/DA-Practica1/main/Script_DB/scriptDB.sql
+        dest: /tmp/{{ db_name }}.sql
+
+    - name: Importar BD
+      mysql_db: 
+        name: '{{ db_name }}'
+        state: import
+        target: /tmp/{{ db_name }}.sql
+        login_user: '{{ name_new_user_db }}'
+        login_password: '{{ pass_new_user_db }}'
+        
+        
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
